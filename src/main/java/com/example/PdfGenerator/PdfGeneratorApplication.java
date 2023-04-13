@@ -10,6 +10,7 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Table;
 import java.util.*;
 
+import com.itextpdf.layout.property.TextAlignment;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
@@ -24,8 +25,8 @@ public class PdfGeneratorApplication {
 		float sizeCol = 75F;
 		int sizeFont = 6;
 
-		float [] pointColumnWidths = {sizeCol, sizeCol, sizeCol, sizeCol, sizeCol, sizeCol, sizeCol, sizeCol,
-				sizeCol, sizeCol, sizeCol, sizeCol, sizeCol, sizeCol};
+		float [] pointColumnWidths = {sizeCol-18F, sizeCol-18F, sizeCol-10F, sizeCol-25F, sizeCol-30F, sizeCol,
+				sizeCol+10F, sizeCol-25F, sizeCol, sizeCol+15F, sizeCol+15F, sizeCol, sizeCol-25F, sizeCol-25F};
 		Table table = new Table(pointColumnWidths);
 
 		PdfFont russian = PdfFontFactory.createFont(
@@ -46,12 +47,19 @@ public class PdfGeneratorApplication {
 		row.add("Улица");
 		row.add("Дом");
 		row.add("Квартира");
-		addRow(table, sizeFont, row);
-
+		for (int i = 0; i < row.toArray().length; i++) {
+			table.addCell(new Cell().add(row.get(i)).setHeight(15).setPadding(0).setMargin(0)
+					.setPaddingLeft(2).setTextAlignment(TextAlignment.LEFT).setFontSize(sizeFont));
+		}
 
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Введите количество человек: ");
+		System.out.println("Введите количество человек (1 <= n <= 30): ");
 		int number = scanner.nextInt();
+		while (number < 1 || number > 30) {
+			System.out.println("Некорректно введенные данные");
+			System.out.println("Введите количество человек (1 <= n <= 30): ");
+			number = scanner.nextInt();
+		}
 
 		for (int i = 0; i<number; i++){
 			addRow(table, sizeFont, generateData(i));
@@ -67,8 +75,14 @@ public class PdfGeneratorApplication {
 
 	public static void addRow(Table table, int sizeFont, List<String> row){
 		for (int i = 0; i < row.toArray().length; i++) {
-			table.addCell(new Cell().add(row.get(i)).setHeight(15).setPadding(0).setMargin(0)
-					.setPaddingLeft(2).setFontSize(sizeFont));
+			switch (i) {
+				case 0, 1, 2, 4, 6, 8, 9, 10, 11 ->
+						table.addCell(new Cell().add(row.get(i)).setHeight(15).setPadding(0).setMargin(0)
+								.setPaddingLeft(2).setTextAlignment(TextAlignment.LEFT).setFontSize(sizeFont));
+				case 3, 5, 7, 12, 13 ->
+						table.addCell(new Cell().add(row.get(i)).setHeight(15).setPadding(0).setMargin(0)
+								.setPaddingRight(2).setTextAlignment(TextAlignment.RIGHT).setFontSize(sizeFont));
+			}
 		}
 	}
 
@@ -194,11 +208,11 @@ class repositoryWoman{
 
 class repository{
 	List<String> cityList = Arrays.asList("Бугульма", "Лениногорск", "Альметьевск", "Казань", "Москва",
-			"Нижнекамск", "Октябрьск", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Уфа",
+			"Нижнекамск", "Октябрьский", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Уфа",
 			"Самара", "Челябинск", "Красноярск", "Пермь");
 	List<String> areaList = Arrays.asList("Орловская", "Ростовская", "Магаданская", "Пермская", "Белгородская",
-			"Томская", "Тверская", "Тамбовская", "Республика Татарстан", "Иркутская",
-			"Республика Башкортостан", "Челябинская", "Самарская", "Саратовская", "Ульяновская");
+			"Томская", "Тверская", "Тамбовская", "Татарстан", "Иркутская",
+			"Башкортостан", "Челябинская", "Самарская", "Саратовская", "Ульяновская");
 	List<String> streetList = Arrays.asList("Баумана", "Островского", "Московская", "Кремлевская",
 			"Дзержинского", "Ленина", "Саид-Галеева", "Пушкина", "Габдуллы Тукая", "Мусы Джалиля",
 			"Гвардейская", "Карла Маркса", "Правобулачная", "Никольская", "Петровка");
