@@ -16,7 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PdfGeneratorApplication {
 	public static void main(String[] args) throws Exception {
-		String dest = "C:/itextExamples/addingTable.pdf";
+		String dest = "C:/itextExamples/Table.pdf";
 		PdfWriter writer = new PdfWriter(dest);
 		PdfDocument pdf = new PdfDocument(writer);
 		Document doc = new Document(pdf, PageSize.A4.rotate());
@@ -61,13 +61,14 @@ public class PdfGeneratorApplication {
 		doc.add(table);
 
 		doc.close();
-		System.out.println("Файл создан. Путь: C:/itextExamples/addingTable.pdf");
+		System.out.println("Файл создан. Путь: C:/itextExamples/Table.pdf");
 	}
 
 
 	public static void addRow(Table table, int sizeFont, List<String> row){
 		for (int i = 0; i < row.toArray().length; i++) {
-			table.addCell(new Cell().add(row.get(i)).setFontSize(sizeFont));
+			table.addCell(new Cell().add(row.get(i)).setHeight(15).setPadding(0).setMargin(0)
+					.setPaddingLeft(2).setFontSize(sizeFont));
 		}
 	}
 
@@ -112,13 +113,29 @@ public class PdfGeneratorApplication {
 			newRow.add("ЖЕН");
 		}
 
+
 		int randDay = rand.nextInt(31)+1;
 		int randMonth = rand.nextInt(12)+1;
 		int Year = 2023 - age;
 		if (randMonth > 4 || (randMonth == 4 && randDay > 15)) {
 			Year--;
 		}
-		newRow.add(Integer.toString(randDay) + '.' + randMonth + '.' + Year);
+		String randDayStr;
+		String randMonthStr;
+		if (randDay < 10) {
+			randDayStr = '0' + Integer.toString(randDay);
+		} else {
+			randDayStr = Integer.toString(randDay);
+		}
+
+		if (randMonth < 10) {
+			randMonthStr = '0' + Integer.toString(randMonth);
+		} else {
+			randMonthStr = Integer.toString(randMonth);
+		}
+
+		newRow.add(randDayStr + '.' + randMonthStr + '.' + Year);
+
 
 		repository repository1 = new repository();
 
