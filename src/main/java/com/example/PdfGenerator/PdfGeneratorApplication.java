@@ -3,20 +3,15 @@ package com.example.PdfGenerator;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.io.FileNotFoundException;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Table;
-
 import java.util.*;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 
 @SpringBootApplication
 public class PdfGeneratorApplication {
@@ -117,10 +112,13 @@ public class PdfGeneratorApplication {
 			newRow.add("ЖЕН");
 		}
 
-		int randDay = rand.nextInt(31);
+		int randDay = rand.nextInt(31)+1;
 		int randMonth = rand.nextInt(12)+1;
 		int Year = 2023 - age;
-		newRow.add(Integer.toString(randDay) + '.' + Integer.toString(randMonth) + '.' + Integer.toString(Year));
+		if (randMonth > 4 || (randMonth == 4 && randDay > 15)) {
+			Year--;
+		}
+		newRow.add(Integer.toString(randDay) + '.' + randMonth + '.' + Year);
 
 		repository repository1 = new repository();
 
@@ -153,12 +151,12 @@ public class PdfGeneratorApplication {
 
 
 class repositoryMan{
-	List<String> nameList = Arrays.asList("Белолипецкий", "Кулинский", "Кортылёв", "Рыбаков", "Ганеев",
-			"Хасанов", "Тарасов", "Лебедев", "Лысенков", "Тямаев", "Круг", "Вакуленко", "Корж",
-			"Салтыков", "Расторгуев");
-	List<String> surnameList = Arrays.asList("Алексей", "Антон", "Дмитрий", "Павел", "Руслан",
+	List<String> nameList = Arrays.asList("Алексей", "Антон", "Дмитрий", "Павел", "Руслан",
 			"Артур", "Андрей", "Никита", "Ростислав", "Фирдус", "Михаил", "Василий", "Максим",
 			"Виктор", "Николай");
+	List<String> surnameList = Arrays.asList("Белолипецкий", "Кулинский", "Кортылёв", "Рыбаков", "Ганеев",
+			"Хасанов", "Тарасов", "Лебедев", "Лысенков", "Тямаев", "Круг", "Вакуленко", "Корж",
+			"Салтыков", "Расторгуев");
 	List<String> patronymicList = Arrays.asList("Алексеевич", "Антонович", "Дмитриевич", "Павлович",
 			"Русланович", "Артурович", "Андреевич", "Никитович", "Ростиславович", "Фирдус оглы",
 			"Михайлович", "Васильевич", "Максимович", "Викторович", "Николаевич");
@@ -166,15 +164,14 @@ class repositoryMan{
 
 
 class repositoryWoman{
-	List<String> nameList = Arrays.asList("Белолипецкий", "Кулинский", "Кортылёв", "Рыбаков", "Ганеев",
-			"Хасанов", "Тарасов", "Лебедев", "Лысенков", "Тямаев", "Круг", "Вакуленко", "Корж",
-			"Салтыков", "Расторгуев");
-	List<String> surnameList = Arrays.asList("Алексей", "Антон", "Дмитрий", "Павел", "Руслан",
-			"Артур", "Андрей", "Никита", "Ростислав", "Фирдус", "Михаил", "Василий", "Максим",
-			"Виктор", "Николай");
-	List<String> patronymicList = Arrays.asList("Алексеевич", "Антонович", "Дмитриевич", "Павлович",
-			"Русланович", "Артурович", "Андреевич", "Никитович", "Ростиславович", "Фирдус оглы",
-			"Михайлович", "Васильевич", "Максимович", "Викторович", "Николаевич");
+	List<String> nameList = Arrays.asList("Марина", "Полина", "Елизавета", "Алена", "Софья", "Анна", "Алиса",
+			"Ева", "Алина", "Екатерина", "Ксения", "Наталья", "Татьяна", "Светлана", "Анфиса");
+	List<String> surnameList = Arrays.asList("Мерзлякова", "Пронькина", "Воронина", "Абрамова", "Громова",
+			"Журавлева", "Захарова", "Зотова", "Ермакова", "Гришина", "Дмитриева", "Емельянова", "Князева",
+			"Николаева", "Давыдова");
+	List<String> patronymicList = Arrays.asList("Алексеевна", "Антоновна", "Дмитриевна", "Павловна", "Руслановна",
+			"Артуровна", "Андреевна", "Никитовна", "Ростиславовна", "Фирдус кызы", "Михайловна", "Васильевна",
+			"Максимовна", "Викторовна", "Николаевна");
 }
 
 
