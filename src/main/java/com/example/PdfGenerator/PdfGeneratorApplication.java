@@ -1,5 +1,8 @@
 package com.example.PdfGenerator;
 
+import com.example.PdfGenerator.repository.repositoryCity;
+import com.example.PdfGenerator.repository.repositoryMan;
+import com.example.PdfGenerator.repository.repositoryWoman;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -17,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PdfGeneratorApplication {
 	public static void main(String[] args) throws Exception {
-		String dest = "C:/itextExamples/Table.pdf";
+		String dest = "./Table.pdf";
 		PdfWriter writer = new PdfWriter(dest);
 		PdfDocument pdf = new PdfDocument(writer);
 		Document doc = new Document(pdf, PageSize.A4.rotate());
@@ -69,7 +72,7 @@ public class PdfGeneratorApplication {
 		doc.add(table);
 
 		doc.close();
-		System.out.println("Файл создан. Путь: C:/itextExamples/Table.pdf");
+		System.out.println("Файл создан. Путь: PdfGenerator/Table.pdf (в папке проекта)");
 	}
 
 
@@ -151,7 +154,7 @@ public class PdfGeneratorApplication {
 		newRow.add(randDayStr + '.' + randMonthStr + '.' + Year);
 
 
-		repository repository1 = new repository();
+		repositoryCity repository1 = new repositoryCity();
 
 		randomIndex = rand.nextInt(repository1.cityList.size());
 		newRow.add(repository1.cityList.get(randomIndex));
@@ -181,39 +184,3 @@ public class PdfGeneratorApplication {
 }
 
 
-class repositoryMan{
-	List<String> nameList = Arrays.asList("Алексей", "Антон", "Дмитрий", "Павел", "Руслан",
-			"Артур", "Андрей", "Никита", "Ростислав", "Фирдус", "Михаил", "Василий", "Максим",
-			"Виктор", "Николай");
-	List<String> surnameList = Arrays.asList("Белолипецкий", "Кулинский", "Кортылёв", "Рыбаков", "Ганеев",
-			"Хасанов", "Тарасов", "Лебедев", "Лысенков", "Тямаев", "Круг", "Вакуленко", "Корж",
-			"Салтыков", "Расторгуев");
-	List<String> patronymicList = Arrays.asList("Алексеевич", "Антонович", "Дмитриевич", "Павлович",
-			"Русланович", "Артурович", "Андреевич", "Никитович", "Ростиславович", "Фирдус оглы",
-			"Михайлович", "Васильевич", "Максимович", "Викторович", "Николаевич");
-}
-
-
-class repositoryWoman{
-	List<String> nameList = Arrays.asList("Марина", "Полина", "Елизавета", "Алена", "Софья", "Анна", "Алиса",
-			"Ева", "Алина", "Екатерина", "Ксения", "Наталья", "Татьяна", "Светлана", "Анфиса");
-	List<String> surnameList = Arrays.asList("Мерзлякова", "Пронькина", "Воронина", "Абрамова", "Громова",
-			"Журавлева", "Захарова", "Зотова", "Ермакова", "Гришина", "Дмитриева", "Емельянова", "Князева",
-			"Николаева", "Давыдова");
-	List<String> patronymicList = Arrays.asList("Алексеевна", "Антоновна", "Дмитриевна", "Павловна", "Руслановна",
-			"Артуровна", "Андреевна", "Никитовна", "Ростиславовна", "Фирдус кызы", "Михайловна", "Васильевна",
-			"Максимовна", "Викторовна", "Николаевна");
-}
-
-
-class repository{
-	List<String> cityList = Arrays.asList("Бугульма", "Лениногорск", "Альметьевск", "Казань", "Москва",
-			"Нижнекамск", "Октябрьский", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Уфа",
-			"Самара", "Челябинск", "Красноярск", "Пермь");
-	List<String> areaList = Arrays.asList("Орловская", "Ростовская", "Магаданская", "Пермская", "Белгородская",
-			"Томская", "Тверская", "Тамбовская", "Татарстан", "Иркутская",
-			"Башкортостан", "Челябинская", "Самарская", "Саратовская", "Ульяновская");
-	List<String> streetList = Arrays.asList("Баумана", "Островского", "Московская", "Кремлевская",
-			"Дзержинского", "Ленина", "Саид-Галеева", "Пушкина", "Габдуллы Тукая", "Мусы Джалиля",
-			"Гвардейская", "Карла Маркса", "Правобулачная", "Никольская", "Петровка");
-}
